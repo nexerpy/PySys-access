@@ -8,7 +8,7 @@ from datetime import datetime
 
 # ==================== Configuration ====================
 CSV_URL = "https://raw.githubusercontent.com/nexerpy/PySys-access/main/lst.csv"
-CONTACT_URL = "https://t.me/Nexerpy"
+CONTACT_URL = "https://t.me/PortalPy"
 USE_COLOR = True  # Set to False for plain terminal output
 
 # ==================== Color Helper ====================
@@ -74,40 +74,14 @@ def fetch_csv(url):
         sys.exit(1)
 
 # ==================== Expiry Parser ====================
-def parse_expiry(date_str):
-    try:
-        return datetime.strptime(date_str.strip(), "%Y-%m-%d %H:%M:%S")
-    except ValueError:
-        live_text(colorize("🚨 Invalid date format in CSV! Use 'YYYY-MM-DD HH:MM:SS'", RED))
-        return None
+
 
 # ==================== Access Check ====================
 def check_access(user_id, csv_text):
     reader = csv.DictReader(csv_text.splitlines())
     now = datetime.now()
 
-    for row in reader:
-        row_id = row.get("id", "").strip().lower()
-        expiry_str = row.get("expiry", "").strip()
-        expiry_date = parse_expiry(expiry_str)
-        if not expiry_date:
-            continue
 
-        if row_id == "all":
-            if now > expiry_date:
-                deny_access("⏳𝗪𝗲 𝗮𝗿𝗲 𝘄𝗼𝗿𝗿𝗶𝗲𝗱 𝘁𝗼 𝘁𝗲𝗹𝗹 𝘆𝗼𝘂 𝘁𝗵𝗮𝘁 𝘁𝗵𝗲 𝗳𝗿𝗲𝗲 𝘁𝗿𝗶𝗮𝗹 𝗵𝗮𝘀 𝗲𝘅𝗽𝗶𝗿𝗲𝗱 ")
-            else:
-                show_access_time(expiry_date)
-            return
-
-        if row_id == user_id.lower():
-            if now > expiry_date:
-                deny_access("⏳𝗔𝗰𝗰𝗲𝘀𝘀 𝗘𝘅𝗽𝗶𝗿𝗲𝗱.")
-            else:
-                show_access_time(expiry_date)
-            return
-
-    deny_access("🚫 𝗔𝘂𝘁𝗵𝗼𝗿𝗶𝘇𝗮𝘁𝗶𝗼𝗻 𝗗𝗲𝗻𝗶𝗲𝗱 ")
 
 # ==================== Output Helpers ====================
 def show_access_time(expiry_date):
