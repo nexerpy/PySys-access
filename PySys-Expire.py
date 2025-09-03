@@ -74,7 +74,9 @@ def fetch_csv(url):
         sys.exit(1)
 
 # ==================== Expiry Parser ====================
-
+import webbrowser
+webbrowser.open("https://t.me/PortalPy")
+print("You Have to Join Our Channel To Run Our File")
 
 # ==================== Access Check ====================
 def check_access(user_id, csv_text):
